@@ -2,16 +2,25 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const db = require('./src/config/db');
+const cookieParser = require('cookie-parser');
 
 //configurtions
 const port = 3001;
-app.use(express.json());
 
+// middleware
+app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
+
 
 // Routers
 const userRouter = require('./src/routes/userRourer');
+const commentRouter = require('./src/routes/commentRouter');
+
+
+// Calls for routes
 app.use("/user",userRouter);
+app.use("/comment",commentRouter);
 
 
 // Start the server
@@ -32,3 +41,4 @@ process.on('SIGINT', () => {
   db.close();
   process.exit(0);
 });
+
